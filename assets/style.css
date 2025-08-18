@@ -1,0 +1,168 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root{
+        /**Cores*/
+        --cor-fundo: #121212;           
+        --cor-superficie: #1e1e1e;       
+        --cor-primaria: #007bff;         
+        --cor-primaria-hover: #0056b3;   
+        --cor-texto-principal: #e0e0e0;   
+        --cor-texto-secundario: #888;    
+        --cor-borda: #333;
+
+        /**Espaçamentos*/
+        --espacamento-sm: 8px;
+        --espacamento-md: 16px;
+        --espacamento-lg: 24px;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    color: var(--cor-texto-principal);
+    background-color: var(--cor-fundo);
+  }
+
+  main{
+    padding: 1rem;
+  }
+
+ h2, h3 {
+    font-weight: 700;
+  }
+
+.mt-2{
+    margin-top: 1rem;
+}
+
+.mb-2{
+    margin-bottom: 1rem;
+}
+
+.p-6{
+    padding: 1rem;
+}
+
+.grid{
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+}
+
+.grid-cart{
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+}
+
+  .img-tenis{
+    width: 18rem;
+    height: 18rem;
+  }
+  
+  .preco-produto {
+    color: var(--cor-primaria);
+    font-size: 1.25rem;
+    font-weight: 700;
+  }
+
+  /**Cartão de Cada Produto(LI)*/
+  .product-card {
+    max-width: 18.75rem;
+    background-color: var(--cor-superficie);
+    padding: var(--espacamento-md);
+    border: 1px solid var(--cor-borda);
+    border-radius: 8px; /* Bordas arredondadas */
+    text-align: start;
+    transition: transform 0.2s ease-in-out; /* Efeito de transição */
+  }
+
+  .product-card:hover{
+    transform: translateY(-5px);
+    border: 1px solid var(--cor-primaria-hover);
+  }
+
+  /**Botão do Produto*/
+  .btn-adicionar-carrinho{
+    background-color: var(--cor-primaria);
+    padding: var(--espacamento-sm);
+    border-radius: 0.5rem;
+    cursor: pointer;
+  }
+
+  .btn-adicionar-carrinho:hover{
+    background-color: var(--cor-primaria-hover);
+  }
+
+  /** Layout do Carrinho **/
+  /* Garante que a lista ocupe o espaço disponível e permita rolagem */
+  #lista-carrinho {
+    display: flex;              /* Inverte a ordem visual sem JS */
+    flex-direction: column;
+    flex: 1 1 auto;
+    overflow-y: auto;
+    gap: 0;
+    background-color: var(--cor-superficie);
+    border: 1px solid var(--cor-borda);
+    border-bottom-width: 0;
+    border-radius: 8px;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+
+  /* Itens do carrinho alinhados e com tamanho consistente */
+  #lista-carrinho li {
+    display: grid;
+    grid-template-columns: 64px 1fr auto;
+    align-items: center;
+    gap: 1rem;
+    padding: var(--espacamento-md);
+  }
+
+  #lista-carrinho img {
+    width: 64px;
+    height: 64px;
+    object-fit: cover;
+    border-radius: 6px;
+  }
+
+  /* Total fixo na base da coluna do carrinho, ocupando toda a largura */
+  #total-carrinho {
+    align-self: stretch;
+    width: 100%;
+    padding: var(--espacamento-md);
+    background-color: var(--cor-superficie);
+    gap: var(--espacamento-sm);
+    border: 1px solid var(--cor-borda);
+    border-top: none;
+  }
+
+  /* Informações do produto dentro do carrinho */
+  #lista-carrinho .produto-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  #lista-carrinho .nome-produto {
+    font-weight: 700;
+    color: var(--cor-texto-principal);
+  }
+
+  /* Botão de remover item do carrinho */
+  #lista-carrinho .btn-remover {
+    background: transparent;
+    border: 1px solid var(--cor-borda);
+    color: var(--cor-texto-secundario);
+    padding: 6px 8px;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+
+  #lista-carrinho .btn-remover:hover {
+    border-color: var(--cor-primaria-hover);
+    color: var(--cor-primaria);
+  }

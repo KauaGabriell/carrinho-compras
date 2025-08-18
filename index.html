@@ -4,28 +4,51 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Carrinho de Compras</title>
+    <link rel="stylesheet" href="./assets/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     </head>
 <body>
-    <header>
-        <h1>Minha Loja de Sneakers</h1>
+    <header class="mt-2">
+        <h1 class="flex justify-center text-3xl">Minha Loja de Sneakers</h1>
     </header>
     
-    <main>
-        <section>
-            <h2>Produtos disponíveis</h2>
-            <ul id="lista-produtos">
+    <main class="flex">
+        <section class="grow-1">
+            <h2 class="text-2xl mb-2">Produtos disponíveis</h2>
+            <ul id="lista-produtos" class="grid">
+                <li class="product-card flex flex-col gap-2">
+                    <img src="assets/imgs/tenis.jpg" class="img-tenis" alt="imagem de um tênis da adidas, cinza com listras brancas">
+                    <div class="flex flex-col">
+                        <h3>Nike Random</h3>
+                        <span>Categoria: Saída</span>
+                        <span class="preco-produto">R$ 120,00</span>
+                    </div>
+                    <button class="btn-adicionar-carrinho">Adicionar ao Carrinho</button>
+                </li>
+                
                 </ul>
         </section>
 
-        <section>
-            <h3>Meu Carrinho</h3>
-            <ul id="lista-carrinho">
-                </ul>
-            <div id="total-carrinho">
-                <strong>Total: R$ 0.00</strong>
+        <section class="grow-1 h-screen flex flex-col mt-2">
+            <h3 class="text-2xl text-center">Meu Carrinho</h3>
+            <ul id="lista-carrinho" class="grid-cart grow">
+                <li class="border-b-1">
+                    <img src="assets/imgs/tenis.jpg" alt="Tênis Nike Air Max 90">
+                    <div class="produto-info">
+                        <span class="nome-produto">Nike Air Max 90 (1x)</span>
+                        <span class="preco-produto">R$ 749,90</span>
+                    </div>
+                    <button class="btn-remover" aria-label="Remover do carrinho">🗑️</button>
+                </li>
+                
+            </ul>
+            <div id="total-carrinho" class="flex flex-col text-center self-center">
+                <strong>Total:</strong>
+                <span class="preco-produto">R$ 120.00</span>
+                <button class="btn-adicionar-carrinho">Comprar</button>
             </div>
         </section>
     </main>
-    
+    <script src="assets/script.js"></script>
     </body>
 </html>
