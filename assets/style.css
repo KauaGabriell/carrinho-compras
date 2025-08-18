@@ -51,6 +51,7 @@ body {
 .grid{
     display: grid;
     grid-template-columns: repeat(4, 1fr);
+    gap: 3rem;
 }
 
 .grid-cart{
@@ -100,7 +101,7 @@ body {
   /** Layout do Carrinho **/
   /* Garante que a lista ocupe o espaço disponível e permita rolagem */
   #lista-carrinho {
-    display: flex;              /* Inverte a ordem visual sem JS */
+    display: flex;           
     flex-direction: column;
     flex: 1 1 auto;
     overflow-y: auto;
