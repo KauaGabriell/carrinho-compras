@@ -36,90 +36,108 @@ const produtosDaLoja = [
   },
 ];
 
-// Nosso carrinho começa vazio
+// Estado do carrinho (fonte da verdade)
 let itensNoCarrinho = [];
 
-/**Selecionando Elementos */
-const ul = document.querySelector('#lista-produtos');
-const ulCarrinho = document.querySelector('#lista-carrinho');
-const totalCarrinho = document.querySelector('#total-carrinho');
+/** Seleção de elementos da interface */
+const listaProdutosElemento = document.querySelector('#lista-produtos');
+const listaCarrinhoElemento = document.querySelector('#lista-carrinho');
+const valorTotalElemento = document.querySelector('#valor-total');
 
-ul.addEventListener('click', function (e) {
-  const el = e.target;
-  const produtoId = Number(el.dataset.id);
-  if (el.classList.contains('btn-adicionar-carrinho')) {
-    const produtoAdicionado = produtosDaLoja.find(function (produto) {
-      return produto.id === produtoId;
-    });
-    itensNoCarrinho.push(produtoAdicionado);
-    renderizarCarrinho(itensNoCarrinho);
-    atualizarTotal(itensNoCarrinho);
-  }
+/** Eventos */
+// Adicionar produto ao carrinho (delegação)
+listaProdutosElemento.addEventListener('click', function (event) {
+  const elementoClicado = event.target;
+  if (!elementoClicado.classList.contains('btn-adicionar-carrinho')) return;
+
+  const produtoId = Number(elementoClicado.dataset.id);
+  adicionarAoCarrinho(produtoId);
+  renderizarCarrinho();
 });
 
-/**Funções */
+// Remover unidade do produto do carrinho (delegação)
+listaCarrinhoElemento.addEventListener('click', function (event) {
+  const elementoClicado = event.target;
+  if (!elementoClicado.classList.contains('btn-remover')) return;
 
-function atualizarTotal(listaDeProdutos) {
-  let total = listaDeProdutos.reduce(function (acumulador, produto) {
-    acumulador += produto.preco;
-    return acumulador;
-  }, 0);
-  const precoFormatado = formataMoeda(total); //Formatando total para MOEDA REAL
-  totalCarrinho.innerHTML = `
-                <strong>Total:</strong>
-                <span id="total-carrinho" class="preco-produto">${precoFormatado}</span>
-                <button class="btn-adicionar-carrinho">Comprar</button>
-  `;
+  const produtoId = Number(elementoClicado.dataset.id);
+  removerUmaUnidadeDoCarrinho(produtoId);
+  renderizarCarrinho();
+});
+
+/** Funções utilitárias */
+function formatarPreco(valor) {
+  return valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
 }
 
-/**Função Básica para formatar o total para Moeda BRL */
-function formataMoeda(preco) {
-  return preco.toLocaleString('pt-BR', {
-    style: 'currency',
-    currency: 'BRL',
-  });
+/** Regras de negócio */
+function adicionarAoCarrinho(produtoId) {
+  const itemExistente = itensNoCarrinho.find(function (item) { return item.id === produtoId; });
+  if (itemExistente) {
+    itemExistente.quantidade += 1;
+    return;
+  }
+  const produto = produtosDaLoja.find(function (p) { return p.id === produtoId; });
+  if (!produto) return;
+  itensNoCarrinho.push({ ...produto, quantidade: 1 });
 }
 
-/**Função Para Renderizar Produtos da Loja */
-function renderizarProdutos(lista) {
-  const produtoCriado = lista.map(function (obj) {
+function removerUmaUnidadeDoCarrinho(produtoId) {
+  const item = itensNoCarrinho.find(function (i) { return i.id === produtoId; });
+  if (!item) return;
+  if (item.quantidade > 1) {
+    item.quantidade -= 1;
+    return;
+  }
+  itensNoCarrinho = itensNoCarrinho.filter(function (i) { return i.id !== produtoId; });
+}
+
+/** Renderização */
+function renderizarListaProdutos(lista) {
+  const htmlProdutos = lista.map(function (produto) {
     return `
       <li class="product-card flex flex-col gap-2">
-                    <img src="${
-                      obj.imagemUrl
-                    }" class="img-tenis" alt="imagem de um tênis da adidas, cinza com listras brancas">
-                    <div class="flex flex-col">
-                        <h3>${obj.nome}</h3>
-                        <span>Categoria: ${obj.categoria}</span>
-                        <span class="preco-produto">${obj.preco.toFixed(
-                          2,
-                        )}</span>
-                    </div>
-                    <button class="btn-adicionar-carrinho" data-id="${
-                      obj.id
-                    }">Adicionar ao Carrinho</button>
-                </li>
-      `;
-  });
-  const listaPronta = produtoCriado.join('');
-  ul.innerHTML = listaPronta; //Mostrando os produtos na página
-}
-/**Função para Renderizar Carrinhos */
-function renderizarCarrinho(listaCarrinho) {
-  const produtoNoCarrinho = listaCarrinho.map(function (produto) {
-    return `
-      <li class="border-b-1">
-                    <img src="${produto.imagemUrl}" alt="Tênis Nike Air Max 90">
-                    <div class="produto-info">
-                        <span class="nome-produto">${produto.nome}</span>
-                        <span class="preco-produto">${produto.preco}</span>
-                    </div>
-                    <button class="btn-remover" aria-label="Remover do carrinho">🗑️</button>
-                </li>
+        <img src="${produto.imagemUrl}" class="img-tenis" alt="Imagem do produto ${produto.nome}">
+        <div class="flex flex-col">
+          <h3>${produto.nome}</h3>
+          <span>Categoria: ${produto.categoria}</span>
+          <span class="preco-produto">${formatarPreco(produto.preco)}</span>
+        </div>
+        <button class="btn-adicionar-carrinho" data-id="${produto.id}">Adicionar ao Carrinho</button>
+      </li>
     `;
-  });
-  const listaCarrinhoPronta = produtoNoCarrinho.join('');
-  ulCarrinho.innerHTML = listaCarrinhoPronta; //Mostrando os itens no carrinho
+  }).join('');
+
+  listaProdutosElemento.innerHTML = htmlProdutos;
 }
 
-renderizarProdutos(produtosDaLoja);
+function renderizarCarrinho() {
+  const htmlCarrinho = itensNoCarrinho.map(function (item) {
+    return `
+      <li class="item-carrinho">
+        <img src="${item.imagemUrl}" alt="${item.nome}">
+        <div class="produto-info">
+          <span class="nome-produto">${item.nome} (x${item.quantidade})</span>
+          <span class="preco-produto">${formatarPreco(item.preco * item.quantidade)}</span>
+        </div>
+        <button class="btn-remover" data-id="${item.id}" title="Remover uma unidade">🗑️</button>
+      </li>
+    `;
+  }).join('');
+
+  listaCarrinhoElemento.innerHTML = htmlCarrinho;
+  atualizarTotalCarrinho();
+}
+
+function atualizarTotalCarrinho() {
+  const total = itensNoCarrinho.reduce(function (soma, item) {
+    return soma + (item.preco * item.quantidade);
+  }, 0);
+  if (valorTotalElemento) {
+    valorTotalElemento.textContent = formatarPreco(total);
+  }
+}
+
+// Inicialização
+renderizarListaProdutos(produtosDaLoja);
+renderizarCarrinho();

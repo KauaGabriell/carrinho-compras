@@ -9,30 +9,32 @@
     </head>
 <body>
     <header class="mt-2">
-        <h1 class="flex justify-center text-3xl">Minha Loja de Sneakers</h1>
+        <h1>Minha Loja de Sneakers</h1>
     </header>
     
-    <main class="flex">
-        <section class="grow-1">
+    <main>
+        <section class="secao-produtos">
             <h2 class="text-2xl mb-2">Produtos disponíveis</h2>
             <ul id="lista-produtos" class="grid">
                 
                 </ul>
         </section>
 
-        <section class="grow-1 h-screen flex flex-col mt-2">
+        <section class="secao-carrinho">
             <h3 class="text-2xl text-center">Meu Carrinho</h3>
-            <ul id="lista-carrinho" class="grid-cart grow">
-                
-            </ul>
-            <div id="total-carrinho" class="flex flex-col text-center self-center">
-                <strong>Total:</strong>
-                <span id="total-carrinho" class="preco-produto">R$ 120.00</span>
-                <button class="btn-adicionar-carrinho">Comprar</button>
+            <div class="carrinho-container">
+                <ul id="lista-carrinho" class="grid-cart">
+                    
+                </ul>
+                <div id="total-carrinho">
+                    <strong>Total:</strong>
+                    <span id="valor-total" class="preco-produto">R$ 0,00</span>
+                    <button class="btn-comprar">Comprar</button>
+                </div>
             </div>
         </section>
     </main>
-    <footer class="flex justify-center">Esse site foi construído com objetivo de praticar programação, não é possível adquirir os produtos citados!!</footer>
+    <footer>Esse site foi construído com objetivo de praticar programação, não é possível adquirir os produtos citados!!</footer>
     <script src="assets/script.js"></script>
     </body>
 </html>
